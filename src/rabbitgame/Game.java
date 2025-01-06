@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class Game {
     
-    JFrame frame = new JFrame();
+    JFrame frame = new JFrame("Rabbit Game");
     JLabel textLabel = new JLabel();
     JPanel textPanel = new JPanel();
     
@@ -14,7 +14,7 @@ public class Game {
     
     public Game(){
         //JFrame
-        frame.setVisible(true);
+        
         frame.setSize(600,650);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -23,8 +23,22 @@ public class Game {
         
         //JLabel
        textLabel.setText("Score: 00");
+       textLabel.setFont(new Font("Arial", Font.PLAIN ,50));
        textPanel.add(textLabel);
-       frame.add(textPanel);
+       frame.add(textPanel,BorderLayout.NORTH);
+       
+       //buttons
+       boardPanel.setLayout(new GridLayout(3,3));
+       for(int i=0; i<9; i++){
+           JButton tile = new JButton();
+           board[i] = tile;
+           boardPanel.add(tile);
+           frame.add(boardPanel);
+       }
+       
+       frame.setVisible(true);
+       
+       
        
        
     }
