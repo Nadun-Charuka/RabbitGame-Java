@@ -25,6 +25,10 @@ public class Game {
     Timer setRabbitTimer;
     Timer setBombTimer;
     
+    int score = 0;
+    
+    
+    
     public Game(){
         //JFrame
         
@@ -55,6 +59,22 @@ public class Game {
            tile.setFocusable(false);
          //  tile.setIcon(rabbitIcon);
            frame.add(boardPanel);
+           tile.addActionListener(new ActionListener(){
+               public void actionPerformed(ActionEvent e){
+                   JButton clicked = (JButton)e.getSource();
+                   if(clicked == currentRabbitTile){
+                       score +=10;
+                       textLabel.setText("Score: "+ Integer.toString(score));
+                   }else if(clicked == currentBombTile){
+                       textLabel.setText("Game Over");
+                       setRabbitTimer.stop();
+                       setBombTimer.stop();
+                       for(int j=0;j<9;j++){
+                           board[j].setEnabled(false);
+                       }
+                   }
+               }
+           });
        }
        
        //Timer
@@ -74,7 +94,7 @@ public class Game {
            }
        });
        
-       setBombTimer = new Timer(1000, new ActionListener(){
+       setBombTimer = new Timer(1500, new ActionListener(){
            @Override
            public void actionPerformed(ActionEvent e){
                if(currentBombTile != null){
@@ -94,9 +114,6 @@ public class Game {
        setBombTimer.start();
        
        frame.setVisible(true);
-       
-       
-       
-       
+            
     }
 }
