@@ -1,7 +1,9 @@
 
 package rabbitgame;
 import java.awt.*;
+import java.util.Random;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class Game {
     
@@ -14,6 +16,14 @@ public class Game {
     
     ImageIcon rabbitIcon; //animeIcon
     ImageIcon bombIcon; //hammerIcon
+    
+    JButton currentRabbitTile;
+    JButton currentBombTile;
+    
+    Random random = new Random();
+    
+    Timer setRabbitTimer;
+    Timer setBombTimer;
     
     public Game(){
         //JFrame
@@ -43,9 +53,45 @@ public class Game {
            board[i] = tile;
            boardPanel.add(tile);
            tile.setFocusable(false);
-           tile.setIcon( bombIcon);
+         //  tile.setIcon(rabbitIcon);
            frame.add(boardPanel);
        }
+       
+       //Timer
+       setRabbitTimer = new Timer(1000, new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e){
+               if(currentRabbitTile != null ){
+                   currentRabbitTile.setIcon(null);
+                   currentRabbitTile = null;
+               }
+               int num = random.nextInt(9);
+               JButton tile = board[num];
+               if(currentBombTile == tile) return;
+               
+               tile.setIcon(rabbitIcon);
+               currentRabbitTile = tile;
+           }
+       });
+       
+       setBombTimer = new Timer(1000, new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e){
+               if(currentBombTile != null){
+                   currentBombTile.setIcon(null);
+                   currentBombTile = null;
+               }
+               int num = random.nextInt(9);
+               JButton tile = board[num];
+               if(currentRabbitTile == tile) return;
+               
+               tile.setIcon(bombIcon);
+               currentBombTile = tile;
+           }
+       });
+       
+       setRabbitTimer.start();
+       setBombTimer.start();
        
        frame.setVisible(true);
        
